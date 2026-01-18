@@ -63,7 +63,7 @@ const Header = () => {
             variant="contained"
             size="large"
             component="a"
-            href="/Ashitosh_Mane_Resume.pdf"
+            href="https://drive.google.com/file/d/1f5D_rExZidnCJNT6rcYcIWr5xsk5AfZt/preview"
             target="_blank"
             sx={{
               background: "linear-gradient(90deg, #6366F1 0%, #22D3EE 100%)",
