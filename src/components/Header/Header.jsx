@@ -93,7 +93,7 @@ const Header = () => {
       <Box component={motion.div} variants={imageVariant} sx={{ flex: 1, display: "flex", justifyContent: "center" }}>
         <Box
           component="img"
-          src="/ashitosh.png"
+          src={process.env.PUBLIC_URL + "/ashitosh.png"}
           alt="Ashitosh Mane"
           sx={{
             width: { xs: 260, md: 340 },
