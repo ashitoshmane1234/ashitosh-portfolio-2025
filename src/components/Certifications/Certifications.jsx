@@ -7,7 +7,9 @@ import {
   Stack,
   Chip,
   Button,
-  IconButton
+  IconButton,
+  Divider,
+  useTheme
 } from "@mui/material";
 
 import {
@@ -63,16 +65,13 @@ const certifications = [
     title: "Basics of Java Programming",
     issuer: "Great Learning",
     issueDate: "No Expiry",
-    credentialId: null,
     credentialUrl: "https://www.mygreatlearning.com/",
-    logo: null,
     skills: [{ name: "Java" }]
   },
   {
     title: "Introduction to Business Management",
     issuer: "Future Learning",
     issueDate: "No Expiry",
-    credentialId: null,
     credentialUrl: "https://www.futurelearn.com/",
     logo: <SiFuturelearn />,
     skills: [
@@ -82,129 +81,166 @@ const certifications = [
   }
 ];
 
-/* =======================
-   COMPONENT
-======================= */
 export default function Certifications() {
   const [expanded, setExpanded] = useState(false);
+  const theme = useTheme();
 
-  const visibleCerts = expanded
+  const certsToShow = expanded
     ? certifications
-    : certifications.slice(0, 2);
+    : certifications.slice(0, 3); // 2 full + partial 3rd
 
   return (
-    <Box sx={{ py: 5 }}>
-      {/* Section Title */}
+    <Box sx={{ py: 6 }}>
       <Typography variant="h4" fontWeight={700} mb={4}>
         Certifications
       </Typography>
 
-      <Stack spacing={3}>
-        {visibleCerts.map((cert, index) => (
-          <Card
-            key={index}
-            variant="outlined"
-            sx={{
-              transition: "0.3s",
-              "&:hover": { boxShadow: 3 }
-            }}
-          >
-            <CardContent>
-              {/* Header */}
-              <Stack direction="row" spacing={2} alignItems="center">
-                {cert.logo && (
-                  <IconButton
-                    component="a"
-                    href={cert.credentialUrl}
-                    target="_blank"
+      {/* CLIPPED CONTAINER */}
+      <Box
+        sx={{
+          position: "relative",
+          overflow: "hidden",
+          maxHeight: expanded ? "none" : 560,
+          transition: "max-height 0.4s ease"
+        }}
+      >
+        <Stack spacing={3}>
+          {certsToShow.map((cert, index) => {
+            const isPartial = !expanded && index === 2;
+
+            return (
+              <Card
+                key={index}
+                sx={{
+                  borderRadius: 3,
+                  backdropFilter: "blur(8px)",
+                  background:
+                    theme.palette.mode === "dark"
+                      ? "rgba(15,23,42,0.85)"
+                      : "#fff",
+                  border: "1px solid",
+                  borderColor:
+                    theme.palette.mode === "dark"
+                      ? "rgba(255,255,255,0.08)"
+                      : "rgba(0,0,0,0.06)",
+                  transition: "0.3s ease",
+                  opacity: isPartial ? 0.95 : 1,
+                  "&:hover": {
+                    transform: "translateY(-4px)",
+                    boxShadow: "0 12px 32px rgba(0,0,0,0.12)"
+                  }
+                }}
+              >
+                <CardContent>
+                  {/* HEADER */}
+                  <Stack direction="row" spacing={2} alignItems="center">
+                    {cert.logo && (
+                      <IconButton
+                        sx={{
+                          fontSize: 34,
+                          color:
+                            brandColors[cert.issuer] || "primary.main"
+                        }}
+                      >
+                        {cert.logo}
+                      </IconButton>
+                    )}
+
+                    <Box>
+                      <Typography fontWeight={600}>
+                        {cert.title}
+                        {isPartial && " …"}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                      >
+                        {cert.issuer} • Issued {cert.issueDate}
+                      </Typography>
+                    </Box>
+                  </Stack>
+
+                  <Divider sx={{ my: 1.5 }} />
+
+                  {/* SKILLS */}
+                  <Stack
+                    direction="row"
+                    flexWrap="wrap"
+                    gap={1}
                     sx={{
-                      color: brandColors[cert.issuer] || "primary.main",
-                      fontSize: 40,
-                      transition: "0.3s",
-                      "&:hover": {
-                        transform: "scale(1.1)"
-                      }
+                      mb: 2,
+                      display: isPartial ? "none" : "flex"
                     }}
                   >
-                    {cert.logo}
-                  </IconButton>
-                )}
+                    {cert.skills.map((skill) => (
+                      <Chip
+                        key={skill.name}
+                        icon={skill.icon}
+                        label={skill.name}
+                        size="small"
+                        variant="outlined"
+                      />
+                    ))}
+                  </Stack>
 
-                <Box>
-                  <Typography fontWeight={600}>
-                    {cert.title}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {cert.issuer} • Issued {cert.issueDate}
-                  </Typography>
-                </Box>
-              </Stack>
+                  {/* CREDENTIAL ID */}
+                  {cert.credentialId && !isPartial && (
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      display="block"
+                      mb={1}
+                    >
+                      Credential ID: {cert.credentialId}
+                    </Typography>
+                  )}
 
-              {/* Skills */}
-              <Stack direction="row" flexWrap="wrap" gap={1} mt={2}>
-                {cert.skills.map((skill) => (
-                  <Chip
-                    key={skill.name}
-                    icon={skill.icon}
-                    label={skill.name}
-                    size="small"
-                    variant="outlined"
-                  />
-                ))}
-              </Stack>
+                  {/* SHOW CREDENTIAL (IMPORTANT ACTION) */}
+                  {cert.credentialUrl && !isPartial && (
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      component="a"
+                      href={cert.credentialUrl}
+                      target="_blank"
+                      sx={{
+                        textTransform: "none",
+                        fontWeight: 600
+                      }}
+                    >
+                      Show Credential
+                    </Button>
+                  )}
+                </CardContent>
+              </Card>
+            );
+          })}
+        </Stack>
 
-              {/* Credential ID */}
-              {cert.credentialId && (
-                <Typography
-                  variant="caption"
-                  color="text.secondary"
-                  display="block"
-                  mt={1}
-                >
-                  Credential ID: {cert.credentialId}
-                </Typography>
-              )}
-
-              {/* View Credential */}
-              {cert.credentialUrl && (
-                <Button
-                  variant="outlined"
-                  size="small"
-                  sx={{ mt: 2 }}
-                  component="a"
-                  href={cert.credentialUrl}
-                  target="_blank"
-                >
-                  Show Credential
-                </Button>
-              )}
-            </CardContent>
-          </Card>
-        ))}
-
-        {/* Faded preview of next cert */}
-        {!expanded && certifications.length > 2 && (
-          <Card variant="outlined" sx={{ opacity: 0.35 }}>
-            <CardContent>
-              <Typography fontWeight={600}>
-                {certifications[2].title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {certifications[2].issuer}
-              </Typography>
-            </CardContent>
-          </Card>
+        {/* FADE MASK */}
+        {!expanded && (
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: 120,
+              background:
+                theme.palette.mode === "dark"
+                  ? "linear-gradient(transparent, #0B0F1B)"
+                  : "linear-gradient(transparent, #fff)"
+            }}
+          />
         )}
-      </Stack>
+      </Box>
 
-      {/* View More / Less */}
-      {certifications.length > 2 && (
-        <Box mt={3} textAlign="right">
-          <Button onClick={() => setExpanded(!expanded)}>
-            {expanded ? "View Less" : "... View More"}
-          </Button>
-        </Box>
-      )}
+      {/* VIEW MORE / LESS */}
+      <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+        <Button size="small" onClick={() => setExpanded(!expanded)}>
+          {expanded ? "View Less" : "View More"}
+        </Button>
+      </Box>
     </Box>
   );
 }

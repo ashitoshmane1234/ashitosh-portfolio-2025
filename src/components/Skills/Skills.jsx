@@ -1,5 +1,14 @@
 import React from "react";
-import { Box, Card, CardContent, Chip, Stack, Typography, Grid } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  Stack,
+  Typography,
+  Grid,
+  useTheme
+} from "@mui/material";
 import {
   SiJavascript, SiSpringboot, SiSpringsecurity, SiReact, SiNextdotjs, SiNodedotjs, SiNestjs,
   SiPython, SiDjango, SiFastapi, SiPostgresql, SiMysql, SiMongodb, SiRedis, SiAmazon,
@@ -7,9 +16,11 @@ import {
   SiTwilio, SiStripe, SiZoom, SiMailchimp, SiOpenai, SiGit, SiGithub, SiBitbucket,
   SiJira, SiPostman, SiSwagger, SiGrafana, SiIntellijidea, SiEclipseide
 } from "react-icons/si";
-
 import { FaProjectDiagram, FaDatabase } from "react-icons/fa";
 
+/* =======================
+   SKILLS DATA (unchanged)
+======================= */
 const skills = {
   "Backend & Architecture": [
     { name: "Java" },
@@ -41,9 +52,7 @@ const skills = {
     { name: "RBAC", icon: <FaProjectDiagram /> },
     { name: "JWT", icon: <FaProjectDiagram /> }
   ],
-  "Frontend": [
-    { name: "React.js", icon: <SiReact /> }
-  ],
+  "Frontend": [{ name: "React.js", icon: <SiReact /> }],
   "Additional Technologies": [
     { name: "JavaScript", icon: <SiJavascript /> },
     { name: "Node.js", icon: <SiNodedotjs /> },
@@ -75,21 +84,40 @@ const skills = {
   ]
 };
 
+/* =======================
+   COMPONENT
+======================= */
 export default function Skills() {
+  const theme = useTheme();
+
   return (
-    <Box sx={{ py: 4 }}>
-      <Typography variant="h4" sx={{ fontWeight: 700, mb: 4 }}>
+    <Box sx={{ py: 5 }}>
+      <Typography variant="h4" fontWeight={700} mb={4}>
         Skills
       </Typography>
 
       <Grid container spacing={3}>
         {Object.entries(skills).map(([category, items]) => (
           <Grid item xs={12} md={6} key={category}>
-            <Card variant="outlined" sx={{ height: "100%", p: 2 }}>
+            <Card
+              variant="outlined"
+              sx={{
+                height: "100%",
+                borderRadius: 3,
+                borderLeft: "4px solid",
+                borderLeftColor: "primary.main",
+                transition: "0.3s ease",
+                "&:hover": {
+                  transform: "translateY(-4px)",
+                  boxShadow: "0 12px 32px rgba(0,0,0,0.12)"
+                }
+              }}
+            >
               <CardContent>
-                <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                <Typography variant="h6" fontWeight={600} mb={2}>
                   {category}
                 </Typography>
+
                 <Stack direction="row" flexWrap="wrap" gap={1.2}>
                   {items.map((skill) => (
                     <Chip
@@ -99,7 +127,12 @@ export default function Skills() {
                       variant="outlined"
                       sx={{
                         fontSize: "0.85rem",
-                        "& .MuiChip-icon": { fontSize: "1.1rem" }
+                        transition: "0.2s",
+                        "& .MuiChip-icon": { fontSize: "1.1rem" },
+                        "&:hover": {
+                          bgcolor: theme.palette.action.hover,
+                          borderColor: "primary.main"
+                        }
                       }}
                     />
                   ))}

@@ -6,8 +6,11 @@ import {
   Typography,
   Stack,
   Chip,
-  Button
+  Button,
+  Divider,
+  useTheme
 } from "@mui/material";
+import LaunchIcon from "@mui/icons-material/Launch";
 
 const projects = [
   {
@@ -66,8 +69,8 @@ const projects = [
 
 export default function ProjectsAndContributions() {
   const [expanded, setExpanded] = useState(false);
+  const theme = useTheme();
 
-  // Show first two fully + third partially when not expanded
   const projectsToShow = expanded
     ? projects
     : [projects[0], projects[1], projects[2]];
@@ -78,61 +81,79 @@ export default function ProjectsAndContributions() {
         Projects & Technical Contributions
       </Typography>
 
-      {/* Container for clipped stack */}
       <Box
         sx={{
           position: "relative",
           overflow: "hidden",
-          maxHeight: expanded ? "none" : 830, // adjust to fit 2 full cards + part of 3rd
+          maxHeight: expanded ? "none" : 820,
           transition: "max-height 0.4s ease"
         }}
       >
         <Stack spacing={3}>
           {projectsToShow.map((project, index) => {
-            const isPartial = !expanded && index === 2; // third project partially visible
+            const isPartial = !expanded && index === 2;
 
             return (
               <Card
                 key={index}
                 sx={{
                   borderRadius: 3,
-                  boxShadow: "0 6px 20px rgba(0,0,0,0.08)",
-                  opacity: isPartial ? 0.95 : 1
+                  backdropFilter: "blur(8px)",
+                  background:
+                    theme.palette.mode === "dark"
+                      ? "rgba(15,23,42,0.85)"
+                      : "#fff",
+                  border: "1px solid",
+                  borderColor:
+                    theme.palette.mode === "dark"
+                      ? "rgba(255,255,255,0.08)"
+                      : "rgba(0,0,0,0.06)",
+                  transition: "0.3s ease",
+                  "&:hover": {
+                    transform: "translateY(-4px)",
+                    boxShadow: "0 12px 32px rgba(0,0,0,0.12)"
+                  }
                 }}
               >
                 <CardContent>
-                  {/* Header */}
+                  {/* HEADER */}
                   <Stack
                     direction="row"
-                    justifyContent="space-between"
                     alignItems="center"
+                    justifyContent="space-between"
+                    gap={2}
                   >
                     <Typography variant="h6" fontWeight={600}>
                       {project.title}
-                      {isPartial && " ..."}
+                      {isPartial && " …"}
                     </Typography>
+
                     <Button
-                      variant="outlined"
                       size="small"
+                      variant="text"
+                      endIcon={<LaunchIcon fontSize="small" />}
                       href={project.view}
                       target="_blank"
+                      sx={{ whiteSpace: "nowrap" }}
                     >
                       View
                     </Button>
                   </Stack>
 
-                  {/* Show full content only if not partial */}
+                  <Divider sx={{ my: 1.5 }} />
+
+                  {/* FULL CONTENT */}
                   {!isPartial && (
                     <>
                       <Typography
-                        mt={1.5}
                         color="text.secondary"
                         lineHeight={1.6}
+                        mb={2}
                       >
                         {project.summary}
                       </Typography>
 
-                      <Stack mt={2} spacing={0.8}>
+                      <Stack spacing={0.8} mb={2}>
                         {project.highlights.map((point, i) => (
                           <Typography key={i} variant="body2">
                             • {point}
@@ -140,31 +161,34 @@ export default function ProjectsAndContributions() {
                         ))}
                       </Stack>
 
-                      <Stack
-                        direction="row"
-                        spacing={1}
-                        mt={2}
-                        flexWrap="wrap"
-                      >
+                      <Stack direction="row" spacing={1} flexWrap="wrap">
                         {project.skills.map((skill, i) => (
-                          <Chip key={i} label={skill} size="small" />
+                          <Chip
+                            key={i}
+                            label={skill}
+                            size="small"
+                            sx={{
+                              fontWeight: 500,
+                              bgcolor:
+                                theme.palette.mode === "dark"
+                                  ? "rgba(99,102,241,0.15)"
+                                  : "rgba(79,70,229,0.1)"
+                            }}
+                          />
                         ))}
                       </Stack>
                     </>
                   )}
 
-                  {/* Partial project shows some summary */}
+                  {/* PARTIAL CARD */}
                   {isPartial && (
                     <Typography
-                      mt={1}
                       color="text.secondary"
-                      lineHeight={1.4}
                       sx={{
                         display: "-webkit-box",
-                        WebkitLineClamp: 4, // show first 4 lines of summary
+                        WebkitLineClamp: 4,
                         WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis"
+                        overflow: "hidden"
                       }}
                     >
                       {project.summary}
@@ -175,20 +199,30 @@ export default function ProjectsAndContributions() {
             );
           })}
         </Stack>
+
+        {/* FADE MASK */}
+        {!expanded && (
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: 120,
+              background:
+                theme.palette.mode === "dark"
+                  ? "linear-gradient(transparent, #0B0F1B)"
+                  : "linear-gradient(transparent, #fff)"
+            }}
+          />
+        )}
       </Box>
 
-      {/* View More / Less button */}
+      {/* VIEW MORE */}
       <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
-        {!expanded && projects.length > 3 && (
-          <Button size="small" onClick={() => setExpanded(true)}>
-            ... View More
-          </Button>
-        )}
-        {expanded && (
-          <Button size="small" onClick={() => setExpanded(false)}>
-            View Less
-          </Button>
-        )}
+        <Button size="small" onClick={() => setExpanded(!expanded)}>
+          {expanded ? "View Less" : "View More"}
+        </Button>
       </Box>
     </Box>
   );
