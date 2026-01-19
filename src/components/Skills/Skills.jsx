@@ -91,10 +91,14 @@ export default function Skills() {
   const theme = useTheme();
 
   return (
-    <Box sx={{ py: 5 }}>
-      <Typography variant="h4" fontWeight={700} mb={4}>
-        Skills
-      </Typography>
+    <Box sx={{ py: { xs: 1, md: 2 } }}>
+      <Typography
+  variant="h4"
+  fontWeight={700}
+  mb={{ xs: 2, md: 3 }}
+>
+  Skills
+</Typography>
 
       <Grid container spacing={3}>
         {Object.entries(skills).map(([category, items]) => (

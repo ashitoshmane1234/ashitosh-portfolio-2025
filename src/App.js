@@ -9,6 +9,8 @@ import Education from "./components/Education";
 import Projects from "./components/Projects";
 import Certifications from "./components/Certifications";
 import Footer from "./components/Footer";
+import ScrollArrow from "./components/Common/ScrollArrow";
+import Section from "./components/Common/Section";
 
 function App() {
   const footerRef = useRef(null);
@@ -58,35 +60,38 @@ function App() {
           px: { xs: 2, md: 4 },
         }}
       >
-        <Stack spacing={{ xs: 6, md: 12 }}>
-          <Box id="hero">
-            <Header />
-          </Box>
+       <Stack spacing={{ xs: 3, md: 6 }}>
+  <Section id="hero">
+    <Header />
+  </Section>
 
-          <Box id="skills">
-            <Skills />
-          </Box>
+  <Section id="skills">
+    <Skills />
+  </Section>
 
-          <Box id="experience">
-            <Experience />
-          </Box>
+  <Section id="experience">
+    <Experience />
+  </Section>
 
-          <Box id="projects">
-            <Projects />
-          </Box>
+  <Section id="projects">
+    <Projects />
+  </Section>
 
-          <Box id="certifications">
-            <Certifications />
-          </Box>
+  <Section id="certifications">
+    <Certifications />
+  </Section>
 
-          <Box id="education">
-            <Education />
-          </Box>
-        </Stack>
+  <Section id="education">
+    <Education />
+  </Section>
+</Stack>
       </Container>
 
       {/* FOOTER (CONTACT) */}
       <Footer ref={footerRef} />
+
+       {/* FLOATING SCROLL ARROW */}
+      <ScrollArrow />
     </Box>
   );
 }

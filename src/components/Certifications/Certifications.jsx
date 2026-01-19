@@ -35,7 +35,7 @@ const brandColors = {
 ======================= */
 const certifications = [
   {
-    title: "Master Microservices with Spring Boot and Spring Cloud",
+    title: "Master Microservices with Spring Boot & Spring Cloud",
     issuer: "Udemy",
     issueDate: "Nov 2025",
     credentialId: "UC-8a998251-8463-4277-a818-408b11fed544",
@@ -52,7 +52,6 @@ const certifications = [
     title: "Modern JavaScript From The Beginning 2.0",
     issuer: "Udemy",
     issueDate: "Nov 2023",
-    credentialId: "UC-cfc8d5eb-6b37-4900-91d4-d9b7f93e1f9b",
     credentialUrl:
       "https://www.udemy.com/certificate/UC-cfc8d5eb-6b37-4900-91d4-d9b7f93e1f9b/",
     logo: <SiUdemy />,
@@ -85,27 +84,23 @@ export default function Certifications() {
   const [expanded, setExpanded] = useState(false);
   const theme = useTheme();
 
-  const certsToShow = expanded
-    ? certifications
-    : certifications.slice(0, 3); // 2 full + partial 3rd
-
   return (
-    <Box sx={{ py: 6 }}>
-      <Typography variant="h4" fontWeight={700} mb={4}>
+    <Box sx={{ py: { xs: 5, md: 6 } }}>
+      <Typography variant="h4" fontWeight={700} mb={3}>
         Certifications
       </Typography>
 
-      {/* CLIPPED CONTAINER */}
+      {/* CLIPPED STACK */}
       <Box
         sx={{
           position: "relative",
           overflow: "hidden",
-          maxHeight: expanded ? "none" : 560,
-          transition: "max-height 0.4s ease"
+          maxHeight: expanded ? "none" : 520,
+          transition: "max-height 0.45s ease"
         }}
       >
-        <Stack spacing={3}>
-          {certsToShow.map((cert, index) => {
+        <Stack spacing={2.5}>
+          {certifications.map((cert, index) => {
             const isPartial = !expanded && index === 2;
 
             return (
@@ -113,31 +108,31 @@ export default function Certifications() {
                 key={index}
                 sx={{
                   borderRadius: 3,
-                  backdropFilter: "blur(8px)",
+                  backdropFilter: "blur(10px)",
                   background:
                     theme.palette.mode === "dark"
-                      ? "rgba(15,23,42,0.85)"
+                      ? "rgba(15,23,42,0.88)"
                       : "#fff",
                   border: "1px solid",
                   borderColor:
                     theme.palette.mode === "dark"
                       ? "rgba(255,255,255,0.08)"
                       : "rgba(0,0,0,0.06)",
+                  opacity: isPartial ? 0.9 : 1,
                   transition: "0.3s ease",
-                  opacity: isPartial ? 0.95 : 1,
                   "&:hover": {
-                    transform: "translateY(-4px)",
-                    boxShadow: "0 12px 32px rgba(0,0,0,0.12)"
+                    transform: "translateY(-3px)",
+                    boxShadow: "0 10px 28px rgba(0,0,0,0.12)"
                   }
                 }}
               >
-                <CardContent>
+                <CardContent sx={{ pb: "16px !important" }}>
                   {/* HEADER */}
                   <Stack direction="row" spacing={2} alignItems="center">
                     {cert.logo && (
                       <IconButton
                         sx={{
-                          fontSize: 34,
+                          fontSize: 32,
                           color:
                             brandColors[cert.issuer] || "primary.main"
                         }}
@@ -151,65 +146,42 @@ export default function Certifications() {
                         {cert.title}
                         {isPartial && " …"}
                       </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                      >
-                        {cert.issuer} • Issued {cert.issueDate}
+                      <Typography variant="body2" color="text.secondary">
+                        {cert.issuer} • {cert.issueDate}
                       </Typography>
                     </Box>
                   </Stack>
 
-                  <Divider sx={{ my: 1.5 }} />
+                  {!isPartial && (
+                    <>
+                      <Divider sx={{ my: 1.5 }} />
 
-                  {/* SKILLS */}
-                  <Stack
-                    direction="row"
-                    flexWrap="wrap"
-                    gap={1}
-                    sx={{
-                      mb: 2,
-                      display: isPartial ? "none" : "flex"
-                    }}
-                  >
-                    {cert.skills.map((skill) => (
-                      <Chip
-                        key={skill.name}
-                        icon={skill.icon}
-                        label={skill.name}
-                        size="small"
-                        variant="outlined"
-                      />
-                    ))}
-                  </Stack>
+                      {/* SKILLS */}
+                      <Stack direction="row" flexWrap="wrap" gap={1} mb={1.5}>
+                        {cert.skills.map((skill) => (
+                          <Chip
+                            key={skill.name}
+                            icon={skill.icon}
+                            label={skill.name}
+                            size="small"
+                            variant="outlined"
+                          />
+                        ))}
+                      </Stack>
 
-                  {/* CREDENTIAL ID */}
-                  {cert.credentialId && !isPartial && (
-                    <Typography
-                      variant="caption"
-                      color="text.secondary"
-                      display="block"
-                      mb={1}
-                    >
-                      Credential ID: {cert.credentialId}
-                    </Typography>
-                  )}
-
-                  {/* SHOW CREDENTIAL (IMPORTANT ACTION) */}
-                  {cert.credentialUrl && !isPartial && (
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      component="a"
-                      href={cert.credentialUrl}
-                      target="_blank"
-                      sx={{
-                        textTransform: "none",
-                        fontWeight: 600
-                      }}
-                    >
-                      Show Credential
-                    </Button>
+                      {cert.credentialUrl && (
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          component="a"
+                          href={cert.credentialUrl}
+                          target="_blank"
+                          sx={{ fontWeight: 600, textTransform: "none" }}
+                        >
+                          View Credential
+                        </Button>
+                      )}
+                    </>
                   )}
                 </CardContent>
               </Card>
@@ -217,7 +189,7 @@ export default function Certifications() {
           })}
         </Stack>
 
-        {/* FADE MASK */}
+        {/* FADE */}
         {!expanded && (
           <Box
             sx={{
@@ -225,7 +197,8 @@ export default function Certifications() {
               bottom: 0,
               left: 0,
               right: 0,
-              height: 120,
+              height: 110,
+              pointerEvents: "none",
               background:
                 theme.palette.mode === "dark"
                   ? "linear-gradient(transparent, #0B0F1B)"
@@ -235,10 +208,14 @@ export default function Certifications() {
         )}
       </Box>
 
-      {/* VIEW MORE / LESS */}
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
-        <Button size="small" onClick={() => setExpanded(!expanded)}>
-          {expanded ? "View Less" : "View More"}
+      {/* VIEW MORE */}
+      <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 1.5 }}>
+        <Button
+          size="small"
+          onClick={() => setExpanded(!expanded)}
+          sx={{ fontWeight: 600, textTransform: "none" }}
+        >
+          {expanded ? "View Less" : "... View More"}
         </Button>
       </Box>
     </Box>
