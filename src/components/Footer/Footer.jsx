@@ -5,6 +5,7 @@ import { LinkedIn, GitHub, Email, Phone, Instagram } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import { getIconColor } from "../Common/themeUtils";
 
+
 const Footer = () => {
   const theme = useTheme();
   const iconSize = 20;
@@ -19,7 +20,7 @@ const Footer = () => {
         backgroundColor:
           theme.palette.mode === "dark"
             ? "rgba(0,0,0,0.35)"
-            : "rgba(59, 130, 246, 0.15)",
+            : "rgba(59,130,246,0.15)",
         backdropFilter: "blur(6px)",
       }}
     >
@@ -59,10 +60,7 @@ const Footer = () => {
           <Stack direction={{ xs: "column", sm: "row" }} spacing={2} alignItems="center" mt={1}>
             <Stack direction="row" spacing={1} alignItems="center">
               <Email sx={{ fontSize: iconSize, color: getIconColor(theme, "email") }} />
-              <Typography
-                variant="body2"
-                sx={{ wordBreak: "break-all", fontSize: "0.85rem" }}
-              >
+              <Typography variant="body2" sx={{ wordBreak: "break-all", fontSize: "0.85rem" }}>
                 ashitoshmane1234@gmail.com
               </Typography>
             </Stack>

@@ -1,4 +1,3 @@
-// Navbar.jsx
 import { useState, useContext } from "react";
 import {
   AppBar,
@@ -38,14 +37,13 @@ export default function Navbar() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const { mode, toggleColorMode } = useContext(ColorModeContext);
+  const iconSize = 22;
 
   const handleClick = (sec) => {
     const element = document.getElementById(sec.id);
     element?.scrollIntoView({ behavior: "smooth" });
     setMobileOpen(false);
   };
-
-  const iconSize = 22;
 
   return (
     <>
@@ -57,7 +55,7 @@ export default function Navbar() {
           backgroundColor:
             theme.palette.mode === "dark"
               ? "rgba(0,0,0,0.35)"
-              : "rgba(59, 130, 246, 0.15)",
+              : "rgba(59,130,246,0.15)",
           borderBottom: "none",
         }}
       >
@@ -97,9 +95,7 @@ export default function Navbar() {
 
           {/* SECTION LINKS */}
           {!isMobile && (
-            <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center", gap: 0.5 }}
-            >
+            <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center", gap: 0.5 }}>
               {sections.map((sec) => (
                 <Button
                   key={sec.id}
@@ -180,7 +176,20 @@ export default function Navbar() {
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
         PaperProps={{
-          sx: { top: "64px", height: "calc(100% - 64px)", bgcolor: "background.paper" },
+          sx: {
+            top: "64px",
+            height: "calc(100% - 64px)",
+            bgcolor:
+              theme.palette.mode === "dark"
+                ? "rgba(15,23,42,0.85)"
+                : "rgba(255,255,255,0.85)",
+            backdropFilter: "blur(12px)",
+            borderLeft: `1px solid ${
+              theme.palette.mode === "dark"
+                ? "rgba(255,255,255,0.1)"
+                : "rgba(0,0,0,0.1)"
+            }`,
+          },
         }}
       >
         <Box
@@ -196,8 +205,25 @@ export default function Navbar() {
           <List>
             {sections.map((sec) => (
               <ListItem key={sec.id} disablePadding>
-                <ListItemButton onClick={() => handleClick(sec)}>
-                  <ListItemText primary={sec.name} sx={{ textAlign: "center" }} />
+                <ListItemButton
+                  onClick={() => handleClick(sec)}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor:
+                        theme.palette.mode === "dark"
+                          ? "rgba(255,255,255,0.1)"
+                          : "rgba(0,0,0,0.05)",
+                    },
+                  }}
+                >
+                  <ListItemText
+                    primary={sec.name}
+                    sx={{
+                      textAlign: "center",
+                      color: theme.palette.mode === "dark" ? "#E5E7EB" : "#111827",
+                      fontWeight: 500,
+                    }}
+                  />
                 </ListItemButton>
               </ListItem>
             ))}
