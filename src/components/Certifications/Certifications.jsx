@@ -176,7 +176,14 @@ export default function Certifications() {
                           component="a"
                           href={cert.credentialUrl}
                           target="_blank"
-                          sx={{ fontWeight: 600, textTransform: "none" }}
+                          sx={{
+                            fontWeight: 600,
+                            textTransform: "none",
+                            fontSize: { xs: "0.72rem", sm: "0.78rem" },
+                            px: { xs: 1, sm: 1.5 },
+                            py: 0.25,
+                            minWidth: "unset"
+                          }}
                         >
                           View Credential
                         </Button>

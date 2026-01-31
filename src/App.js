@@ -11,6 +11,7 @@ import Certifications from "./components/Certifications";
 import Footer from "./components/Footer";
 import ScrollArrow from "./components/Common/ScrollArrow";
 import Section from "./components/Common/Section";
+import AwardsSection from "./components/Award";
 
 function App() {
   const footerRef = useRef(null);
@@ -79,6 +80,10 @@ function App() {
 
   <Section id="certifications">
     <Certifications />
+  </Section>
+
+  <Section id="awards">
+    <AwardsSection />
   </Section>
 
   <Section id="education">

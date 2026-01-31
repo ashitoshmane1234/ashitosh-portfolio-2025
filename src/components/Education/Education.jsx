@@ -55,13 +55,12 @@ const educationData = [
   }
 ];
 
-
 export default function Education() {
   const [expanded, setExpanded] = useState(false);
   const theme = useTheme();
 
   return (
-    <Box sx={{ py: { xs: 5, md: 6 } }}>
+    <Box sx={{ py: { xs: 2, md: 1 } }}>
       <Typography variant="h4" fontWeight={700} mb={3}>
         Education
       </Typography>
@@ -125,7 +124,11 @@ export default function Education() {
                     <>
                       <Divider sx={{ my: 1.5 }} />
 
-                      <Typography variant="body2" color="text.secondary" mb={1.5}>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        mb={1.5}
+                      >
                         {edu.duration}
                         {edu.type && ` • ${edu.type}`} • Grade: {edu.grade}
                       </Typography>
@@ -137,7 +140,14 @@ export default function Education() {
                           component="a"
                           href={edu.certificate}
                           target="_blank"
-                          sx={{ fontWeight: 600, textTransform: "none" }}
+                          sx={{
+                            fontWeight: 600,
+                            textTransform: "none",
+                            fontSize: { xs: "0.72rem", sm: "0.78rem" },
+                            px: { xs: 1, sm: 1.5 },
+                            py: 0.25,
+                            minWidth: "unset"
+                          }}
                         >
                           View Certificate
                         </Button>
