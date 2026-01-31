@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Box, Stack, Typography, Card, CardContent, Chip, Button } from "@mui/material";
+import { useTheme } from "@emotion/react";
 
 const experienceData = [
   {
@@ -7,6 +8,23 @@ const experienceData = [
     company: "Mindbowser Inc, Pune",
     duration: "Feb 2024 – Present",
     projects: [
+       {
+      name: "CuradentAI",
+      client: "",
+      duration: "Jan 2026 – Present",
+      summary: [
+        "Designed and built a reusable event-driven architecture using Google Pub/Sub with retries and DLQ",
+        "Implemented Stripe subscription integration: create, upgrade, downgrade, cancel, and renew",
+        "Handled webhooks, discussions, and coupon code logic for seamless subscription management"
+      ],
+      skills: [
+        "Event-Driven Architecture",
+        "Google Pub/Sub",
+        "Stripe Integration",
+        "Webhooks",
+        "Subscription Management"
+      ]
+    },
       {
         name: "MyCa (Healthcare SaaS Platform)",
         client: "Nuvance Health",
@@ -70,6 +88,8 @@ const experienceData = [
 
 export default function ExperienceTimeline() {
   const [expanded, setExpanded] = useState({});
+    const theme = useTheme();
+  
   const toggleExpand = (i) => {
     setExpanded((prev) => ({ ...prev, [i]: !prev[i] }));
   };
@@ -171,17 +191,29 @@ export default function ExperienceTimeline() {
                                 </li>
                               ))}
                             </ul>
-                            <Stack direction="row" flexWrap="wrap" gap={1} mt={1.5}>
-                              {proj.skills.map((skill) => (
-                                <Chip
-                                  key={skill}
-                                  label={skill}
-                                  size="small"
-                                  variant="outlined"
-                                  sx={{ fontSize: "0.7rem" }}
-                                />
-                              ))}
-                            </Stack>
+                             <Stack
+  direction="row"
+  flexWrap="wrap"
+  gap={0.8} // gap instead of spacing
+  mt={1.5}
+>
+  {proj.skills.map((skill) => (
+    <Chip
+      key={skill}
+      label={skill}
+      size="small"
+      sx={{
+        fontWeight: 500,
+        flexShrink: 0, // prevents shrinking too much
+        bgcolor:
+          theme.palette.mode === "dark"
+            ? "rgba(99,102,241,0.15)"
+            : "rgba(79,70,229,0.1)",
+        mb: 0.5 // small margin bottom for wrapping
+      }}
+    />
+  ))}
+</Stack>
                           </>
                         )}
                       </CardContent>

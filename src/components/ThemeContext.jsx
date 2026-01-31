@@ -5,9 +5,10 @@ import { darkTheme, lightTheme } from "../theme";
 export const ColorModeContext = createContext();
 
 export function ThemeModeProvider({ children }) {
-  const [mode, setMode] = useState("dark");
+  // Set default to light mode
+  const [mode, setMode] = useState("light");
 
-  // Load saved preference
+  // Load saved preference from localStorage
   useEffect(() => {
     const saved = localStorage.getItem("themeMode");
     if (saved) setMode(saved);

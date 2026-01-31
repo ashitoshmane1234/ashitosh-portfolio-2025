@@ -22,14 +22,44 @@ import { SiLinkedin, SiGithub, SiGmail, SiInstagram } from "react-icons/si";
 import { ColorModeContext } from "../ThemeContext";
 import { getIconColor } from "../Common/themeUtils";
 
+/* =======================
+   NAV SECTIONS
+======================= */
 const sections = [
   { name: "About", id: "hero" },
   { name: "Skills", id: "skills" },
   { name: "Experience", id: "experience" },
   { name: "Projects", id: "projects" },
   { name: "Certifications", id: "certifications" },
+  { name: "Awards", id: "awards" },
   { name: "Education", id: "education" },
   { name: "Contact", id: "contact" },
+];
+
+/* =======================
+   SOCIAL LINKS
+======================= */
+const socialLinks = [
+  {
+    name: "linkedin",
+    href: "https://www.linkedin.com/in/ashitosh-mane-7a2b121b9/",
+    Icon: SiLinkedin,
+  },
+  {
+    name: "github",
+    href: "https://github.com/ashitoshmane1234",
+    Icon: SiGithub,
+  },
+  {
+    name: "gmail",
+    href: "mailto:ashitoshmane1234@gmail.com?subject=Contact%20from%20Portfolio&body=Hi%20Ashitosh,%0D%0A%0D%0A",
+    Icon: SiGmail,
+  },
+  {
+    name: "instagram",
+    href: "https://www.instagram.com/ashitosh_mane_/",
+    Icon: SiInstagram,
+  },
 ];
 
 export default function Navbar() {
@@ -45,8 +75,37 @@ export default function Navbar() {
     setMobileOpen(false);
   };
 
+  /* =======================
+     SOCIAL ICONS
+  ======================= */
+  const SocialIcons = ({ gap = 1, center = false }) => (
+    <Box
+      sx={{
+        display: "flex",
+        gap,
+        justifyContent: center ? "center" : "flex-start",
+      }}
+    >
+      {socialLinks.map(({ name, href, Icon }) => (
+        <IconButton
+          key={name}
+          component="a"
+          href={href}
+          target={name === "gmail" ? undefined : "_blank"}
+          rel={name !== "gmail" ? "noopener noreferrer" : undefined}
+          sx={{ color: getIconColor(theme, name) }}
+        >
+          <Icon size={iconSize} />
+        </IconButton>
+      ))}
+    </Box>
+  );
+
   return (
     <>
+      {/* =======================
+          APP BAR
+      ======================= */}
       <AppBar
         position="sticky"
         elevation={0}
@@ -56,7 +115,6 @@ export default function Navbar() {
             theme.palette.mode === "dark"
               ? "rgba(0,0,0,0.35)"
               : "rgba(59,130,246,0.15)",
-          borderBottom: "none",
         }}
       >
         <Toolbar sx={{ display: "flex", alignItems: "center" }}>
@@ -68,11 +126,8 @@ export default function Navbar() {
               display: "flex",
               alignItems: "center",
               fontWeight: 800,
-              letterSpacing: "-0.5px",
               fontSize: "1.35rem",
               userSelect: "none",
-              transition: "all 0.3s ease",
-              "&:hover": { transform: "translateY(-1px)", opacity: 0.9 },
             }}
           >
             <Box component="span" sx={{ color: "text.primary", mr: 0.5 }}>
@@ -81,7 +136,7 @@ export default function Navbar() {
             <Box
               component="span"
               sx={{
-                background: (theme) =>
+                background:
                   theme.palette.mode === "dark"
                     ? "linear-gradient(135deg, #6366f1, #22d3ee)"
                     : "linear-gradient(135deg, #4338ca, #0284c7)",
@@ -93,9 +148,16 @@ export default function Navbar() {
             </Box>
           </Box>
 
-          {/* SECTION LINKS */}
+          {/* DESKTOP LINKS */}
           {!isMobile && (
-            <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center", gap: 0.5 }}>
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                justifyContent: "center",
+                gap: 0.25,
+              }}
+            >
               {sections.map((sec) => (
                 <Button
                   key={sec.id}
@@ -104,6 +166,7 @@ export default function Navbar() {
                     color: "text.primary",
                     textTransform: "none",
                     fontWeight: 500,
+                    px: 1.25,
                     "&:hover": { color: "primary.main" },
                   }}
                 >
@@ -113,54 +176,16 @@ export default function Navbar() {
             </Box>
           )}
 
-          {/* THEME SWITCH + SOCIAL */}
+          {/* RIGHT SIDE */}
           {!isMobile ? (
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <IconButton
                 onClick={toggleColorMode}
-                sx={{
-                  mr: 4,
-                  color: "text.primary",
-                  "&:hover": { color: "primary.main", transform: "rotate(20deg)" },
-                }}
+                sx={{ mr: 4 }}
               >
                 {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
               </IconButton>
-
-              {/* SOCIAL ICONS */}
-              <Box sx={{ display: "flex", gap: 1 }}>
-                <IconButton
-                  component="a"
-                  href="https://linkedin.com"
-                  target="_blank"
-                  sx={{ color: getIconColor(theme, "linkedin") }}
-                >
-                  <SiLinkedin size={iconSize} />
-                </IconButton>
-                <IconButton
-                  component="a"
-                  href="https://github.com"
-                  target="_blank"
-                  sx={{ color: getIconColor(theme, "github") }}
-                >
-                  <SiGithub size={iconSize} />
-                </IconButton>
-                <IconButton
-                  component="a"
-                  href="mailto:ashitoshmane1234@gmail.com"
-                  sx={{ color: getIconColor(theme, "gmail") }}
-                >
-                  <SiGmail size={iconSize} />
-                </IconButton>
-                <IconButton
-                  component="a"
-                  href="https://instagram.com/YOUR_INSTAGRAM"
-                  target="_blank"
-                  sx={{ color: getIconColor(theme, "instagram") }}
-                >
-                  <SiInstagram size={iconSize} />
-                </IconButton>
-              </Box>
+              <SocialIcons />
             </Box>
           ) : (
             <IconButton onClick={() => setMobileOpen(true)} sx={{ ml: "auto" }}>
@@ -170,27 +195,24 @@ export default function Navbar() {
         </Toolbar>
       </AppBar>
 
-      {/* MOBILE DRAWER */}
+      {/* =======================
+          MOBILE DRAWER
+      ======================= */}
       <Drawer
         anchor="right"
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
         PaperProps={{
-          sx: {
-            top: "64px",
-            height: "calc(100% - 64px)",
-            bgcolor:
-              theme.palette.mode === "dark"
-                ? "rgba(15,23,42,0.85)"
-                : "rgba(255,255,255,0.85)",
-            backdropFilter: "blur(12px)",
-            borderLeft: `1px solid ${
-              theme.palette.mode === "dark"
-                ? "rgba(255,255,255,0.1)"
-                : "rgba(0,0,0,0.1)"
-            }`,
-          },
-        }}
+  sx: {
+    top: "64px",
+    height: "calc(100% - 64px)",
+    backdropFilter: "blur(14px)",
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? "rgba(15,23,42,0.95)"   // 🔥 almost solid dark
+        : "rgba(255,255,255,0.95)", // 🔥 almost solid light
+  },
+}}
       >
         <Box
           sx={{
@@ -205,24 +227,10 @@ export default function Navbar() {
           <List>
             {sections.map((sec) => (
               <ListItem key={sec.id} disablePadding>
-                <ListItemButton
-                  onClick={() => handleClick(sec)}
-                  sx={{
-                    "&:hover": {
-                      backgroundColor:
-                        theme.palette.mode === "dark"
-                          ? "rgba(255,255,255,0.1)"
-                          : "rgba(0,0,0,0.05)",
-                    },
-                  }}
-                >
+                <ListItemButton onClick={() => handleClick(sec)}>
                   <ListItemText
                     primary={sec.name}
-                    sx={{
-                      textAlign: "center",
-                      color: theme.palette.mode === "dark" ? "#E5E7EB" : "#111827",
-                      fontWeight: 500,
-                    }}
+                    sx={{ textAlign: "center", fontWeight: 500 }}
                   />
                 </ListItemButton>
               </ListItem>
@@ -237,39 +245,7 @@ export default function Navbar() {
             </IconButton>
           </Box>
 
-          <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
-            <IconButton
-              component="a"
-              href="https://linkedin.com"
-              target="_blank"
-              sx={{ color: getIconColor(theme, "linkedin") }}
-            >
-              <SiLinkedin size={iconSize} />
-            </IconButton>
-            <IconButton
-              component="a"
-              href="https://github.com"
-              target="_blank"
-              sx={{ color: getIconColor(theme, "github") }}
-            >
-              <SiGithub size={iconSize} />
-            </IconButton>
-            <IconButton
-              component="a"
-              href="mailto:ashitoshmane1234@gmail.com"
-              sx={{ color: getIconColor(theme, "gmail") }}
-            >
-              <SiGmail size={iconSize} />
-            </IconButton>
-            <IconButton
-              component="a"
-              href="https://instagram.com/YOUR_INSTAGRAM"
-              target="_blank"
-              sx={{ color: getIconColor(theme, "instagram") }}
-            >
-              <SiInstagram size={iconSize} />
-            </IconButton>
-          </Box>
+          <SocialIcons gap={2} center />
         </Box>
       </Drawer>
     </>

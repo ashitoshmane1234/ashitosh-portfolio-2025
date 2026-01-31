@@ -118,7 +118,7 @@ const awards = [
   {
     title: "Mindbowser’s Pinnacle Award",
     issuer: "Mindbowser Inc",
-    method: "Annual excellence awards",
+    method: "Annual award",
     year: "Oct 2025",
     description: "Awarded to top 5 employees",
     images: [
@@ -129,7 +129,7 @@ const awards = [
   {
     title: "Mindbowser’s Shining Star Award",
     issuer: "Mindbowser Inc",
-    method: "Company-wide performance review",
+    method: "Annual award",
     year: "May 2024",
     description: "Top performer among 20+ freshers",
     images: [

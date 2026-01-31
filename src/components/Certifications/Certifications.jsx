@@ -7,46 +7,18 @@ import {
   Stack,
   Chip,
   Button,
-  IconButton,
   Divider,
   useTheme
 } from "@mui/material";
 
-import {
-  SiUdemy,
-  SiSpringboot,
-  SiSpringsecurity,
-  SiJavascript,
-  SiNodedotjs,
-  SiFuturelearn
-} from "react-icons/si";
-
-/* =======================
-   BRAND COLORS
-======================= */
-const brandColors = {
-  Udemy: "#A435F0",
-  "Future Learning": "#DE1B54",
-  "Great Learning": "#0A5CD8"
-};
-
-/* =======================
-   CERTIFICATION DATA
-======================= */
 const certifications = [
   {
     title: "Master Microservices with Spring Boot & Spring Cloud",
     issuer: "Udemy",
     issueDate: "Nov 2025",
-    credentialId: "UC-8a998251-8463-4277-a818-408b11fed544",
     credentialUrl:
       "https://www.udemy.com/certificate/UC-8a998251-8463-4277-a818-408b11fed544/",
-    logo: <SiUdemy />,
-    skills: [
-      { name: "Spring Boot", icon: <SiSpringboot /> },
-      { name: "Spring Cloud", icon: <SiSpringboot /> },
-      { name: "Microservices", icon: <SiSpringsecurity /> }
-    ]
+    skills: ["Spring Boot", "Spring Cloud", "Microservices"]
   },
   {
     title: "Modern JavaScript From The Beginning 2.0",
@@ -54,29 +26,21 @@ const certifications = [
     issueDate: "Nov 2023",
     credentialUrl:
       "https://www.udemy.com/certificate/UC-cfc8d5eb-6b37-4900-91d4-d9b7f93e1f9b/",
-    logo: <SiUdemy />,
-    skills: [
-      { name: "JavaScript", icon: <SiJavascript /> },
-      { name: "Node.js", icon: <SiNodedotjs /> }
-    ]
+    skills: ["JavaScript", "Node.js"]
   },
   {
     title: "Basics of Java Programming",
     issuer: "Great Learning",
     issueDate: "No Expiry",
     credentialUrl: "https://www.mygreatlearning.com/",
-    skills: [{ name: "Java" }]
+    skills: ["Java"]
   },
   {
     title: "Introduction to Business Management",
     issuer: "Future Learning",
     issueDate: "No Expiry",
     credentialUrl: "https://www.futurelearn.com/",
-    logo: <SiFuturelearn />,
-    skills: [
-      { name: "Business Fundamentals" },
-      { name: "Management Basics" }
-    ]
+    skills: ["Business Fundamentals", "Management Basics"]
   }
 ];
 
@@ -90,7 +54,6 @@ export default function Certifications() {
         Certifications
       </Typography>
 
-      {/* CLIPPED STACK */}
       <Box
         sx={{
           position: "relative",
@@ -129,18 +92,6 @@ export default function Certifications() {
                 <CardContent sx={{ pb: "16px !important" }}>
                   {/* HEADER */}
                   <Stack direction="row" spacing={2} alignItems="center">
-                    {cert.logo && (
-                      <IconButton
-                        sx={{
-                          fontSize: 32,
-                          color:
-                            brandColors[cert.issuer] || "primary.main"
-                        }}
-                      >
-                        {cert.logo}
-                      </IconButton>
-                    )}
-
                     <Box>
                       <Typography fontWeight={600}>
                         {cert.title}
@@ -157,18 +108,26 @@ export default function Certifications() {
                       <Divider sx={{ my: 1.5 }} />
 
                       {/* SKILLS */}
-                      <Stack direction="row" flexWrap="wrap" gap={1} mb={1.5}>
-                        {cert.skills.map((skill) => (
-                          <Chip
-                            key={skill.name}
-                            icon={skill.icon}
-                            label={skill.name}
-                            size="small"
-                            variant="outlined"
-                          />
-                        ))}
-                      </Stack>
+                        <Stack direction="row" flexWrap="wrap" gap={0.8} mb={1.5}>
+  {cert.skills.map((skill) => (
+    <Chip
+      key={skill}
+      label={skill}
+      size="small"
+      sx={{
+        fontWeight: 500,
+        flexShrink: 0,
+        bgcolor:
+          theme.palette.mode === "dark"
+            ? "rgba(99,102,241,0.15)"
+            : "rgba(79,70,229,0.1)",
+        mb: 0.5
+      }}
+    />
+  ))}
+</Stack>
 
+                      {/* VIEW CREDENTIAL BUTTON (kept original style) */}
                       {cert.credentialUrl && (
                         <Button
                           size="small"
